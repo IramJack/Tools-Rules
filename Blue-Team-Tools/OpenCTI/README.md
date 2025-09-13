@@ -1,5 +1,6 @@
 # Introduction to OpenCTI
 By TryHackMe: https://tryhackme.com/room/opencti
+
 <img width="1706" height="373" alt="Image" src="https://github.com/user-attachments/assets/d547206a-c9af-4391-8787-05077f891227" />
 
 Cyber Threat Intelligence (CTI) is often seen as a managerial puzzle. Organisations frequently struggle with how to collect, process, analyse, and present threat data in a way that makes sense. As seen in the overview, several platforms exist to address this challenge, each offering different ways to manage the vast landscape of Threat Intelligence.
