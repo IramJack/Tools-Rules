@@ -2,6 +2,10 @@
 
 This room introduces you to the **analysis of security logs with Microsoft Sentinel KQL**. As security engineers, we think of security logs as treasures because they can help us discover the hidden activities within our infrastructure. Logs are not just lines of text — they are **records of activity**, footprints left behind by users, attackers, and applications. When properly analyzed, they reveal secrets, tell stories, and expose malicious behavior hiding in plain sight.
 
+By TryHackMe:
+https://tryhackme.com/room/kqlkustointroduction
+https://tryhackme.com/room/kqlkustobasicqueries
+
 A quick background intro:
 
 * **Microsoft Sentinel** is a cloud-native Security Information and Event Management (SIEM) product. It ingests logs from multiple sources to provide better visibility across your environment.
@@ -267,4 +271,4 @@ KQL is more than just a query language — it is a **powerful ally** in the figh
 
 Learning KQL is not only about writing queries — it’s about **thinking like a threat hunter**, connecting dots, and revealing patterns others might miss. The more comfortable you get with KQL, the more effective you become as a defender of your organization’s digital estate.
 
-
+---
