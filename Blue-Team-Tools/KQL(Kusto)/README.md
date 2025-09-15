@@ -190,6 +190,7 @@ Each step is separated by the pipe (|) operator. For easy reference, the table b
 <img width="617" height="429" alt="Image" src="https://github.com/user-attachments/assets/a93043f0-c02a-40e7-a067-99a4d37ec084" />
 
 Kindly refer to the official KQL quick reference for more details. In summary, functions and operators perform operations on ingested logs, while expressions combine values, functions, and operators into single units, enabling security analysts to efficiently analyze and manipulate security logs.
+
 ---
 
 ### KQL Statement Structure
