@@ -60,10 +60,8 @@ FTK Imager can be used to read disk images and to export registry files and asso
 
 <img width="1148" height="717" alt="Image" src="https://github.com/user-attachments/assets/6c0b3ac9-da4a-418d-a324-b7e4bb44bd3e" />
 
-
-     Select the OS drive from the available list.
+ Select the OS drive from the available list.
      
-
 <img width="1145" height="714" alt="Image" src="https://github.com/user-attachments/assets/57a8bf1d-54c6-43a0-b3a7-8fcdd092a892" />
 
    * **Image File** — use when working from a cold image; browse to and add the saved disk image.
