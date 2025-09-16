@@ -2,6 +2,7 @@
 
 To begin her investigation, Anna must acquire the Windows registry data from the target system. Registry artifacts contain rich configuration and execution information crucial to forensic timelines and attribution. This write-up explains the difference between **live** and **cold** collections, describes why and when to use each approach, and gives a polished, step-by-step FTK Imager procedure Anna can follow — preserving the same screenshots placeholders included in the original task.
 
+By TryhackME: https://tryhackme.com/room/expregistryforensics
 ---
 
 ## Live vs Cold Acquisition — Key differences
