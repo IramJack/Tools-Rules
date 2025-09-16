@@ -3,6 +3,8 @@
 
 MISP (Malware Information Sharing Platform) is an open-source threat information platform that facilitates the collection, storage, and distribution of threat intelligence and Indicators of Compromise (IOCs) related to malware, cyber attacks, financial fraud, or any intelligence within a community of trusted members.
 
+By TryHackMe: https://tryhackme.com/room/misp
+
 ![Image](https://github.com/user-attachments/assets/7aed85cf-f57f-4c55-a40e-2d70ef9c1aa3)
 
 Information sharing follows a distributed model, supporting closed, semi-private, and open communities (public). Additionally, threat information can be distributed and consumed by Network Intrusion Detection Systems (NIDS), log analysis tools, and Security Information and Event Management Systems (SIEM).
