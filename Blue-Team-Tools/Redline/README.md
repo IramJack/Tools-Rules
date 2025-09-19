@@ -170,11 +170,15 @@ The **Timeline** feature is crucial for reconstructing an attack. It records fil
 If you know when compromise occurred, use **TimeWrinkles™** to filter timeline events around that period.
 
 <img width="480" height="285" alt="Image" src="https://github.com/user-attachments/assets/058d29af-19b3-4d91-98c7-69db2c03f1b2" />
+
+
 <img width="346" height="143" alt="Image" src="https://github.com/user-attachments/assets/add8ec5d-1c01-4aa0-8fa2-664b49079df7" />
 
 Use **TimeCrunches™** to reduce repetitive or irrelevant data (e.g., hiding events that occurred within the same minute).
 
 <img width="478" height="282" alt="Image" src="https://github.com/user-attachments/assets/9a249fe4-1922-4391-b5fc-70e5b012cbfd" />
+
+
 <img width="352" height="512" alt="Image" src="https://github.com/user-attachments/assets/e7e768c5-9815-4e49-9338-9a8f8f596232" />
 
 ---
