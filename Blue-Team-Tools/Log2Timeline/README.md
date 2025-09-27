@@ -140,15 +140,15 @@ For tagging, check the parameters required:
 
 To run tagging analysis using the built-in tagging file:
 
-**psort.py -o null --analysis tagging --tagging-file tag_windows.txt Jimmy_timeline.plaso
-**
+**psort.py -o null --analysis tagging --tagging-file tag_windows.txt Jimmy_timeline.plaso**
+
 <img width="948" height="238" alt="Image" src="https://github.com/user-attachments/assets/48c68f93-dd17-4d49-8157-aab40036b34c" />
 
 This uses `tag_windows.txt` (included with Plaso’s installation) to assign event tags without printing them directly, providing a useful summary for forensic investigations.
 
 ---
 
-##Conclusion
+## Conclusion
 
 Log2Timeline, together with its companion tools pinfo.py and psort.py, provides forensic investigators with a powerful workflow for building, analyzing, and refining timelines from disk images. By leveraging parsers and plugins, investigators can focus on specific artifacts such as Windows Event Logs, export data into formats like CSV for deeper analysis, and even tag events for automated reporting.
 
