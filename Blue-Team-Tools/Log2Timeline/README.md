@@ -64,7 +64,6 @@ Parsers provide granularity when creating targeted timelines. Without specifying
 To view supported parsers:
 
 **log2timeline.py --parsers list | more**
-```
 
 <img width="749" height="607" alt="Image" src="https://github.com/user-attachments/assets/e0ec4e6e-4ca5-4697-ad0a-39d2ac62b85f" />
 
