@@ -41,9 +41,11 @@ The **pre-processing stage** then begins, collecting information from the storag
 ## Timeline Creation with Log2Timeline
 
 **log2timeline.py --storage-file Jimmy_timeline.plaso 2020JimmyWilson.E01**
+
 ...
 ...
 ...
+
 **all**
 
 <img width="957" height="604" alt="Image" src="https://github.com/user-attachments/assets/c9d8f05f-310e-4b08-a0e6-35cdb9364e51" />
