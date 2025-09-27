@@ -40,11 +40,11 @@ The **pre-processing stage** then begins, collecting information from the storag
 
 ## Timeline Creation with Log2Timeline
 
-log2timeline.py --storage-file Jimmy_timeline.plaso 2020JimmyWilson.E01
+**log2timeline.py --storage-file Jimmy_timeline.plaso 2020JimmyWilson.E01**
 ...
 ...
 ...
-all
+**all**
 
 <img width="957" height="604" alt="Image" src="https://github.com/user-attachments/assets/c9d8f05f-310e-4b08-a0e6-35cdb9364e51" />
 
@@ -61,7 +61,7 @@ Parsers provide granularity when creating targeted timelines. Without specifying
 
 To view supported parsers:
 
-log2timeline.py --parsers list | more
+**log2timeline.py --parsers list | more**
 ```
 
 <img width="749" height="607" alt="Image" src="https://github.com/user-attachments/assets/e0ec4e6e-4ca5-4697-ad0a-39d2ac62b85f" />
@@ -70,8 +70,8 @@ log2timeline.py --parsers list | more
 
 As an example, let’s employ the **winevt parser** to focus only on Windows Event Logs:
 
-log2timeline.py --parsers winevt --artifact-filters WindowsEventLogSystem --storage-file Jimmy_WinEvent_timeline.plaso 2020JimmyWilson.E01
-```
+**log2timeline.py --parsers winevt --artifact-filters WindowsEventLogSystem --storage-file Jimmy_WinEvent_timeline.plaso 2020JimmyWilson.E01**
+
 
 <img width="958" height="479" alt="Image" src="https://github.com/user-attachments/assets/e99f5ea0-5eff-471e-9b10-a7fccf836a92" />
 
@@ -85,13 +85,13 @@ The `pinfo.py` utility retrieves metadata about a timeline storage file, such as
 * Parsers used
 * Number of extracted events
 
-pinfo.py Jimmy_timeline.plaso | more
+**pinfo.py Jimmy_timeline.plaso | more**
 
 <img width="714" height="581" alt="Image" src="https://github.com/user-attachments/assets/0a9c5072-5458-42e2-9ce4-bd6ba25b30c6" />
 
 For a more verbose output, include the `-v` flag:
 
-pinfo.py -v Jimmy_timeline.plaso
+**pinfo.py -v Jimmy_timeline.plaso**
 
 <img width="947" height="579" alt="Image" src="https://github.com/user-attachments/assets/b89f654b-cf81-4c51-9173-05807a983cae" />
 
@@ -103,12 +103,12 @@ pinfo.py -v Jimmy_timeline.plaso
 
 General usage format:
 
-psort.py [-a] [-o FORMAT] [-w OUTPUTFILE] [--output-time-zone TIME_ZONE] STORAGE_FILE FILTER
+**psort.py [-a] [-o FORMAT] [-w OUTPUTFILE] [--output-time-zone TIME_ZONE] STORAGE_FILE FILTER**
 
 
 To list supported output formats:
 
-psort.py -o list
+**psort.py -o list**
 
 <img width="946" height="426" alt="Image" src="https://github.com/user-attachments/assets/5f227d46-ac76-4f5a-b175-0ba634504f61" />
 
@@ -116,7 +116,7 @@ psort.py -o list
 
 To generate a complete timeline of Jimmy Wilson’s disk in CSV:
 
-psort.py -o dynamic -w Jimmy_timeline.csv Jimmy_timeline.plaso
+**psort.py -o dynamic -w Jimmy_timeline.csv Jimmy_timeline.plaso**
 
 <img width="947" height="294" alt="Image" src="https://github.com/user-attachments/assets/7a536460-aea0-4348-895b-ffa3c0a705e4" />
 
@@ -130,19 +130,17 @@ Plaso provides plugins for automatic timeline analysis. These plugins can extrac
 
 To view supported plugins:
 
-psort.py --analysis list
-
+**psort.py --analysis list**
 
 For tagging, check the parameters required:
 
-psort.py --analysis tagging -h
-
+**psort.py --analysis tagging -h**
 <img width="949" height="566" alt="Image" src="https://github.com/user-attachments/assets/51a8c7e5-b571-4b58-b30c-f884e00e6890" />
 
 To run tagging analysis using the built-in tagging file:
 
-psort.py -o null --analysis tagging --tagging-file tag_windows.txt Jimmy_timeline.plaso
-
+**psort.py -o null --analysis tagging --tagging-file tag_windows.txt Jimmy_timeline.plaso
+**
 <img width="948" height="238" alt="Image" src="https://github.com/user-attachments/assets/48c68f93-dd17-4d49-8157-aab40036b34c" />
 
 This uses `tag_windows.txt` (included with Plaso’s installation) to assign event tags without printing them directly, providing a useful summary for forensic investigations.
