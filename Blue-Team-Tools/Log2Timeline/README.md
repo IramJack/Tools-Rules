@@ -136,6 +136,7 @@ To view supported plugins:
 For tagging, check the parameters required:
 
 **psort.py --analysis tagging -h**
+
 <img width="949" height="566" alt="Image" src="https://github.com/user-attachments/assets/51a8c7e5-b571-4b58-b30c-f884e00e6890" />
 
 To run tagging analysis using the built-in tagging file:
