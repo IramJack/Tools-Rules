@@ -105,11 +105,6 @@ Splunk can ingest almost any type of data. According to Splunk's documentation, 
 <img width="1093" height="459" alt="Image" src="https://github.com/user-attachments/assets/6ca1976b-bf8a-4e1e-93b1-73d81bf3a0fa" />
 
 
-For this walkthrough, we'll work with VPN logs. Clicking the **Add Data** link on the Splunk home screen brings up the following view.
-
-
-<img width="984" height="786" alt="Image" src="https://github.com/user-attachments/assets/cf133ac2-f72b-4b50-ba84-764937e97031" />
-
 ### Uploading Data from Your Local Machine
 
 We'll use the **Upload** option to load a log file from our computer. The upload process consists of five simple steps:
