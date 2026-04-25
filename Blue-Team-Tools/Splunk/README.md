@@ -37,7 +37,9 @@ The Search Head is the interface within Splunk's Search & Reporting App where us
 
 <img width="1164" height="275" alt="Image" src="https://github.com/user-attachments/assets/72e53c1e-d9c0-4000-9e0d-d047008cfc93" />
 
+
 The Search Head also lets you turn results into tables and visualizations like pie charts, bar charts, and column charts.
+
 
 <img width="485" height="523" alt="Image" src="https://github.com/user-attachments/assets/2972959e-1211-44b9-8ffb-93efa3bd3ce4" />
 
@@ -69,9 +71,12 @@ The Splunk Bar also lets you switch between installed Splunk apps without using 
 
 Below that is the Apps Panel, which lists all installed apps. Every Splunk installation includes the default **Search & Reporting** app.
 
+
 <img width="272" height="213" alt="Image" src="https://github.com/user-attachments/assets/caff5cdb-907c-4efc-b4de-ac71b37713c7" />
 
+
 You can also change apps directly from the Splunk Bar, bypassing the Apps Panel entirely.
+
 
 <img width="367" height="35" alt="Image" src="https://github.com/user-attachments/assets/35499dc9-3a7b-4cb9-a9fc-7ab2d0fac8bb" />
 
@@ -95,7 +100,9 @@ Splunk can ingest almost any type of data. According to Splunk's documentation, 
 
 <img width="1093" height="459" alt="Image" src="https://github.com/user-attachments/assets/6ca1976b-bf8a-4e1e-93b1-73d81bf3a0fa" />
 
+
 For this walkthrough, we'll work with VPN logs. Clicking the **Add Data** link on the Splunk home screen brings up the following view.
+
 
 <img width="984" height="786" alt="Image" src="https://github.com/user-attachments/assets/cf133ac2-f72b-4b50-ba84-764937e97031" />
 
