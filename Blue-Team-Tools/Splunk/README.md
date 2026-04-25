@@ -10,7 +10,7 @@ Splunk relies on three core components that work together to enable efficient da
 
 <img width="920" height="309" alt="Image" src="https://github.com/user-attachments/assets/74ec0ae3-3e52-4863-90f7-ccb9b32f6f92" />
 
-### Splunk Forwarder
+### 1. Splunk Forwarder
 
 The Forwarder is a lightweight agent installed on the system you want to monitor. Its job is to collect data and forward it to the Splunk instance. Because it uses minimal system resources, it doesn't impact endpoint performance. Typical data sources include:
 
@@ -23,7 +23,7 @@ The Forwarder is a lightweight agent installed on the system you want to monitor
 
 The forwarder gathers data from these log sources and transmits it to the Indexer.
 
-### Splunk Indexer
+### 2. Splunk Indexer
 
 The Indexer is responsible for processing incoming data from forwarders. It parses and standardizes the data into field-value pairs, categorizes it, and stores the results as events. This makes the data easy to search and analyze later.
 
@@ -31,7 +31,7 @@ The Indexer is responsible for processing incoming data from forwarders. It pars
 
 Once the Indexer has normalized and stored the data, the Search Head can be used to query it.
 
-### Search Head
+### 3. Search Head
 
 The Search Head is the interface within Splunk's Search & Reporting App where users can run searches against indexed logs. Searches are written in SPL (Search Processing Language), a powerful query language designed specifically for Splunk. When you execute a search, the request goes to the Indexer, and matching events are returned as field-value pairs.
 
@@ -42,6 +42,8 @@ The Search Head also lets you turn results into tables and visualizations like p
 
 
 <img width="485" height="523" alt="Image" src="https://github.com/user-attachments/assets/2972959e-1211-44b9-8ffb-93efa3bd3ce4" />
+
+----------------
 
 ## Navigating the Splunk Interface
 
@@ -93,6 +95,8 @@ By default, no dashboards are shown here. You can pick from various dashboards a
 <img width="1548" height="660" alt="Image" src="https://github.com/user-attachments/assets/a6733a31-17ba-4c51-9ec3-982b6c159647" />
 
 You can also create your own dashboards and add them to the Home Dashboard. Custom dashboards appear under the **Yours** tab, separate from other dashboards.
+
+----------------------------
 
 ## Adding Data to Splunk
 
