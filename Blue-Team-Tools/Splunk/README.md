@@ -819,3 +819,215 @@ Following a similar approach, you can hunt for logins during unusual hours. Howe
 More advanced detections, such as **Impossible Travel**, are built on the same basic commands. All you need is SPL knowledge, some math, and threat context (e.g., IP geolocation from `iplocation` or threat intelligence from lookup tables). You can even experiment with the `fit` and `apply` commands, which leverage machine learning algorithms to train on your data and improve future outlier detection.
 
 ---
+
+# Creating Reports for Recurring Searches
+
+After Splunk loads, open the **Search & Reporting** app and enter your first query: `index = *`. Set the time range to **All time** to get an overview of the data we'll use.
+
+<img width="936" height="376" alt="image" src="https://github.com/user-attachments/assets/572f0060-7987-4c9f-b361-8de689614212" />
+
+In the screenshot above, you'll notice there are over 10,000 events in the available dataset. Manually going through all of them would take a long time and isn't efficient. Looking at raw logs rarely helps when you're trying to understand an organization's overall security posture, nor does it give much insight into potential threats or active attacks. These are common problems when dealing with large volumes of data. Luckily, Splunk provides tools to help you aggregate, visualize, and analyze effectively.
+
+### Building Reports
+
+In a SOC environment, running the same searches repeatedly happens often. For example, an organization might want a search to run every eight hours when shifts change. Creating a **scheduled report** for this purpose is efficient – it runs automatically and saves the results for later review. Reports also reduce the load on the Splunk search head. Instead of running multiple manual searches at the start of each shift, scheduling them at short intervals (like 5–10 minutes apart) keeps performance smooth and results fast.
+
+Go to the **Reports** tab in Splunk. You'll see a list of default reports. Clicking any report shows its results. You can also click **Open in Search** to view the query and time settings in the search app.
+
+<img width="936" height="401" alt="image" src="https://github.com/user-attachments/assets/737366ac-deef-4cfd-ad58-80305f30d525" />
+
+Now go back to **Search** to run a query and start building your first report. Keep the time range set to **All time**.
+
+```
+index = vpn_server | stats count by Username | sort - count
+```
+
+This query searches the `vpn_server` index, counts events grouped by the `Username` field, and sorts them by that count (descending). In your Splunk instance (and in the screenshot below), you'll see a total of 86 events, with `Sarah` having the most. Click **Save As → Report**.
+
+<img width="936" height="327" alt="image" src="https://github.com/user-attachments/assets/94bad0f7-4df4-49e1-91ee-302d99e87e83" />
+
+In a SOC, you might want to track which users logged in during a specific period. Creating a report from the previous query that runs every few hours or daily would be very helpful. Give your new report a title and description. Because we used `stats count`, the **Content type** is automatically set to **Statistics Table**. You can also choose whether to keep the **Time Range Picker** active or not. Click **Save and View**.
+
+<img width="936" height="270" alt="image" src="https://github.com/user-attachments/assets/57431469-4b07-4d08-9a9b-3a55c0c58b2d" />
+
+Great – you've successfully created your first Splunk report. From here, you can edit it, open it in search, or even add it to a dashboard.
+
+<img width="936" height="276" alt="image" src="https://github.com/user-attachments/assets/a2332b36-9dd6-4651-963d-f1f07d910e2c" />
+
+### Scheduling a Report
+
+Reports are useful on their own, but their real power comes when you **schedule** them. As mentioned, a SOC may need certain reports to run periodically – every few hours or at the start of each day – to maintain continuous visibility. With the Splunk Free license, scheduling isn't available, but Splunk Enterprise unlocks full scheduling capabilities. As shown below, you can configure reports to run on a recurring schedule (e.g., daily at midnight using the previous 24 hours of data). Enterprise also lets you set a report’s priority and scheduling window, helping Splunk coordinate multiple scheduled reports efficiently and avoid resource issues.
+
+<img width="541" height="350" alt="image" src="https://github.com/user-attachments/assets/8ae5dea3-1ad4-4e41-8d4e-410da3ef8423" />
+
+---
+
+## Detecting With Alerts and Rules
+
+So far, you've learned to create basic reports for quick reference. But what if you want to be notified when a specific activity happens? For instance, multiple failed login attempts on one endpoint, or an external IP trying to access an internal employee portal. In these cases, **alerts** can automatically detect events and notify analysts in real time.
+
+> **Note:** Due to the limitations of the free Splunk license, we cannot practice setting up alerts on the attached instance. However, you can follow along with the queries and screenshots to learn how they're configured.
+
+### Building Alerts
+
+Let's jump into the `web_logs` index and review the available data. There are 10,000 logs to analyze. Looking at the `URI` field, `/restricted.html` certainly looks interesting.
+
+<img width="936" height="368" alt="image" src="https://github.com/user-attachments/assets/4acf514d-cb5e-493e-abb5-6d96d0aa8ea9" />
+
+Suppose that `/restricted.html` should normally only be accessed from internal network IP addresses. To find potential unauthorized access, we can create a query that returns events where the `Source_IP` falls outside the expected internal ranges. If any external IP addresses appear, it could indicate suspicious activity. After entering the query, click **Save As → Alert**.
+
+```
+index = web_logs URI = /restricted.html NOT Source_IP IN (10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16)
+```
+
+<img width="936" height="298" alt="image" src="https://github.com/user-attachments/assets/79984bbc-b065-4d45-a939-7331b7124963" />
+
+When saving the alert, you'll need to provide a title and description, then choose several configuration options. In the example below, we selected:
+
+**1. Alert type:** Real-time – runs continuously and triggers as soon as a matching event appears
+**2. Trigger alert when:** Per‑Result – triggers every time a single event matches the search criteria
+**3. When triggered:** Send email – an email will be sent to `soc@tryhackme.com` when the alert fires
+
+<img width="936" height="361" alt="image" src="https://github.com/user-attachments/assets/aa7ef029-bd2c-4442-b48b-4bf14beb5cc6" />
+
+### Building a Baseline and Threshold Rule
+
+Now let's look at another example using the same `web_logs` index. We'll focus specifically on the `/payments.html` URI. If you query this field in your Splunk instance and examine the `status_code` field, you'll see a range of responses.
+
+```
+index = web_logs URI = /payments.html
+```
+
+<img width="936" height="364" alt="image" src="https://github.com/user-attachments/assets/7e83183c-1060-42ac-ac3e-22a400eaea6e" />
+
+
+Perhaps we want an alert that notifies us when the server sees a spike in `404` responses. But what counts as a "spike"? To answer that, we need to establish a **baseline** – the normal range of this response.
+
+The query below searches the `web_logs` index for `status_code = 404`. It first groups events into 1‑hour intervals, counts the events, then calculates the average (rounded to one decimal) to provide a baseline.
+
+```
+index = web_logs URI = /payments.html status_code = 404
+| bin _time span=1h
+| stats count AS hits BY _time
+| eventstats avg(hits) AS avg_hits
+| eval avg_hits = round(avg_hits, 1)
+```
+
+As shown in the screenshot below, `/payments.html` generates an average of **7.6** `404` responses per hour based on the available events.
+
+<img width="936" height="360" alt="image" src="https://github.com/user-attachments/assets/cdb570e7-754a-487e-a37d-d2628e740d90" />
+
+
+#### Threshold
+
+We measured an average of 7.6 `404` responses per hour on `/payments.html`. That's our baseline, but traffic isn't static:
+
+- Weekends, holidays, or marketing campaigns can shift the average.
+- A fixed number like 10 risks false positives, while a larger number could cause missed issues.
+
+Let's create a query that sets a threshold of **>11** in any 1‑hour window. That's approximately 1.45 times the average. From this query, you could create an alert that runs every hour and notifies the SOC team of an abnormal response rate.
+
+```
+index = web_logs URI = /payments.html status_code = 404
+| bin _time span=1h
+| stats count AS hits BY _time
+| where hits > 11
+| eval alert = "HIGH 404s: ".hits." in 1h (normal: ~7.6/hr)"
+```
+
+In the screenshot below, if the count exceeds 11, the alert displays the events within that hour window, along with the total number of responses received. As with the previous alert, you can choose to receive an in‑app or email notification, plus configure additional actions. You can also view the alert's trigger history to see when it fired and what results it produced.
+
+<img width="936" height="500" alt="image" src="https://github.com/user-attachments/assets/dc134e2b-91cd-470c-a4eb-cf26c8922952" />
+
+---
+
+## Creating Dashboards for Summarizing Results
+
+In Splunk, **dashboards** give users quick access to summarized information about their data. Dashboards are often built to provide an overview of selected important fields and statistics. For example, you might want a dashboard that shows the number of incidents within a specific time frame, helping you spot spikes or dips in certain events. Like reports, if you navigate to the **Dashboards** tab in Splunk, you'll see a list of default dashboards, including one called **Web Logs Overview** that we'll use in this task.
+
+<img width="936" height="316" alt="image" src="https://github.com/user-attachments/assets/33225734-9c8f-469a-8231-c96f96f196d4" />
+
+Besides using an existing dashboard, you can create a new one. You'll need to assign a title, provide an optional description, adjust permissions, and choose between **Classic Dashboards** or **Dashboard Studio**.
+
+Dashboard Studio is Splunk's newer builder, offering more customization options but with a steeper learning curve. **Classic Dashboards** remain the most common format and fully support all standard visualizations. In this room, we'll stick with Classic Dashboards.
+
+<img width="541" height="508" alt="image" src="https://github.com/user-attachments/assets/5a4ef08a-e923-4ae6-b59b-653a9a94af72" />
+
+Back in the **Dashboards** tab, select the **Web Logs Overview** dashboard. Currently, it has a single panel that visualizes the count of events over time from the `web_logs` index. This is helpful, but we can make it even better by adding more visualizations to understand our web server data better. Click **Edit**, then **+ Add Panel** as highlighted below.
+
+<img width="936" height="411" alt="image" src="https://github.com/user-attachments/assets/c21f40a4-8830-499f-b704-d4c6427a594e" />
+
+Suppose we want to build a **pie chart** showing the event count for the `URI` field in the `web_logs` index. This helps visualize how many times each URI was accessed. In the **Add Panel** pop‑out, choose:
+
+1. **New → Pie Chart**
+2. Set the time to **All time**
+3. Enter a **Content Title**
+4. Enter the search string:  
+   `index = web_logs | stats count by URI | sort - count`
+5. Click **Add to Dashboard**
+
+<img width="936" height="237" alt="image" src="https://github.com/user-attachments/assets/45f553da-a74e-467e-b645-8baadd7862de" />
+
+Great – you've officially built an informative and visually appealing dashboard. But why stop there? We can add more panels to display any information we like. In the previous task, we looked at the `/restricted.html` URI. Let's create a **statistics table** for our dashboard that shows:
+
+- `status_code` field
+- count of events
+- percent of events
+- total number of events overall
+
+Click **+ Add Panel** again, but this time choose **New → Statistics Table**. Set the time range to **All time** and use the following query as the **Search String**:
+
+```
+index = web_logs URI = /restricted.html
+| stats count by status_code
+| eventstats sum(count) as total
+| eval percent = round(count * 100.0 / total, 2) 
+| sort - count
+```
+
+<img width="936" height="227" alt="image" src="https://github.com/user-attachments/assets/ad514092-74f7-4249-8daf-f98d0351f6e6" />
+
+---
+
+## Extending Splunk Functionality
+
+Creating reports, alerts, rules, and dashboards are powerful ways to analyze large volumes of data and stay informed when something unusual occurs. At its core, Splunk is a data platform that ingests, indexes, and provides visibility into logs. But visibility alone isn't enough for a modern SOC. To move from observing threats to actively managing and mitigating them, Splunk offers **Enterprise Security** for detection and investigation, as well as **SOAR** for automated response.
+
+> **Note:** The advanced Splunk security solutions discussed in this section (Enterprise Security, UEBA, and SOAR) are **not installed** in this lab environment. The examples shown are included to illustrate how organizations extend Splunk in real‑world SOCs.
+
+### Splunk Enterprise Security
+
+**Enterprise Security (ES)** is Splunk's premium, paid security analytics add‑on, designed to sit on top of your Splunk Enterprise or Cloud environment. It provides a full security operations framework that goes far beyond basic log searching or dashboard building.
+
+ES delivers full SOC visibility, giving analysts insight into operational metrics. The **SOC Operations view** below helps teams understand their overall efficiency, workload distribution, and where bottlenecks may be forming – ensuring incidents are not only detected but handled quickly and consistently.
+
+<img width="788" height="442" alt="image" src="https://github.com/user-attachments/assets/1b56f820-17aa-45ab-8b73-359086ddc598" />
+
+Instead of simply searching data or building dashboards, ES applies context, correlations, and threat models across your organization's infrastructure. It can transform events into meaningful insights by mapping detections to the MITRE ATT&CK framework, aggregating events to provide risk scores, and highlighting events that represent real threats. ES also includes capabilities such as **notable events**, **threat intelligence integration**, **correlation searches**, and **investigation workflows** that help SOCs enhance their detection and response processes.
+
+<img width="788" height="555" alt="image" src="https://github.com/user-attachments/assets/90c612b6-82e2-49f6-bad9-6be8f1fd52d1" />
+
+
+### Splunk UEBA
+
+Splunk's **User and Entity Behavior Analytics (UEBA)** is a tool within ES, built to detect insider threats, compromised accounts, and suspicious activity that might be missed by other detection measures. UEBA analyzes the behavior of users and entities – including hosts, servers, and applications – allowing for the detection of anomalies across your environment.
+
+UEBA assigns **risk scores** to users and entities by evaluating behavior and events over time. It can aggregate multiple events (unusual logins, abnormal access patterns, suspicious process activity) to build a risk score that indicates the likelihood of malicious behavior. This information is mapped to MITRE ATT&CK techniques, helping analysts determine which phase of an attack it may align with.
+
+<img width="788" height="405" alt="image" src="https://github.com/user-attachments/assets/21334e7a-f82e-4154-a8ef-a5ff2c406f1d" />
+
+### Splunk SOAR
+
+Splunk's **SOAR** (formerly known as Splunk Phantom) is a paid product; however, a free **Community Edition** is available for on‑premises deployments. It brings automation to the SOC by turning detections into automated responses. While analysts would otherwise manually investigate alerts, check IP reputation, isolate hosts, or disable accounts, SOAR can perform these actions automatically through **playbooks** that integrate with industry security tools. This reduces response time, eliminates repetitive work, and ensures consistency when handling incidents. By combining ES's analytics with SOAR's automated actions, SOCs can transition from simply identifying threats to effectively eliminating them.
+
+In the screenshot below, you can see how SOAR allows fine‑tuning of workflows using conditions, filters, and decision nodes. This enables highly adaptive playbooks that react differently depending on the type of artifact detected, severity, or enrichment results.
+
+
+<img width="788" height="387" alt="image" src="https://github.com/user-attachments/assets/f6241241-df95-4afd-b684-6c8861e62f90" />
+
+
+
+
+
+
+
