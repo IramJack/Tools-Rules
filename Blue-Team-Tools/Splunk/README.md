@@ -1,12 +1,340 @@
-# Splunk's Basics
+# Splunk
 
 Splunk is a widely used Security Information and Event Management (SIEM) platform that helps security analysts search through, visualize, and investigate log data. The real power of Splunk lies in its Search Processing Language (SPL), which turns massive amounts of raw data into actionable insights. In this guide, you'll learn how to create search queries, apply filters, and transform results to extract valuable information.
 
 <img width="257" height="257" alt="Image" src="https://github.com/user-attachments/assets/f44691f5-504a-4326-8ec1-6924fb2b86e0" />
 
+---
+
+# Splunk Deployment and Log Forwarding 
+
+## Understanding Splunk Deployment
+
+Before building your environment, you need to grasp how Splunk components fit together. The diagram below shows the main pieces and how they communicate in a typical SOC setup.
+
+<img width="887" height="165" alt="Image" src="https://github.com/user-attachments/assets/c5ac84e5-64af-492b-ba02-0972d858986c" />
+
+### Core Components
+
+#### Forwarders
+
+Splunk forwarders are small, low‑overhead agents installed on endpoints or servers. Their only job is to collect logs and ship them to your Splunk instance. They are critical whether you have a handful of machines or thousands.
+
+- **Universal forwarder** sends raw data as‑is.
+- **Heavy forwarder** can filter or parse data before forwarding.
+
+#### Indexers
+
+Indexers take incoming data from forwarders, process it, and store it. In a SOC, indexers turn raw logs into searchable events. When data hits an indexer, it gets parsed, transformed, and written into an **index** – a structured container that makes correlation and analysis fast.
+
+#### Search Head
+
+The search head is what analysts use to run queries and investigate logs. It sends search requests to indexers and displays results via dashboards, reports, and alerts. Analysts can also build visualizations and correlations to spot trends or suspicious behavior. Beyond being a graphical interface, the search head performs **search‑time parsing**: it extracts fields and transforms raw data on the fly during a search.
+
+> In this lab, the same Splunk instance acts as both indexer and search head. In larger deployments, organizations often separate these roles – for example, a cluster of indexers handling high throughput and dedicated search heads for visualization.
+
+Splunk favors search‑time parsing, meaning raw events stay untouched and fields are extracted only when you search. This gives flexibility without reindexing but consumes more CPU on the search head.
+
+#### Deployment Server
+
+<img width="690" height="244" alt="Image" src="https://github.com/user-attachments/assets/e5535ecb-7c4a-4b95-9218-843facd1df08" />
+
+Managing a few forwarders manually is fine, but doing it for hundreds or thousands is a nightmare. A **Splunk deployment server** is an optional central controller for multiple forwarders. Imagine needing to push configuration changes to servers spread across the country – the deployment server lets you do that remotely, without logging into each machine.
+
+In a SOC, this simplifies large‑scale log collection. It keeps all forwarders in sync with the latest inputs, outputs, and settings.
+
+---
+
+## Installing Splunk on Linux
+
+Splunk runs on all major operating systems. Installation is quick – usually under ten minutes. Normally you'd create an account and download the latest package.
+
+<img width="887" height="220" alt="Image" src="https://github.com/user-attachments/assets/b65a62e2-39c2-4b8c-b940-27a589005d51" />
+
+### Running the Install
+
+First, go to the downloads folder, switch to root, and extract the tarball into `/opt`. We'll use the `tar` command shown below.
+
+```bash
+cd Downloads/splunk
+ubuntu@coffely:~/Downloads/splunk$ ls
+splunk_installer.tgz splunkforwarder.tgz
+ubuntu@coffely:~/Downloads/splunk/$ sudo su
+root@coffely:~/Downloads/splunk/#
+root@coffely:~/Downloads/splunk/# tar xvzf splunk_installer.tgz -C /opt
+splunk/
+splunk/splunk-9.0.3-dd0128b1f8cd-linux-2.6-x86_64-manifest
+...
+```
+
+### Starting Splunk for the First Time
+
+The extraction places all binaries and files on disk. Now move into `/opt/splunk/bin` and launch Splunk with `./splunk start --accept-license`. You'll be asked to set an admin username and password.
+
+```bash
+root@coffely:~/Downloads/splunk/# cd /opt/splunk/bin
+root@coffely:/opt/splunk/bin# ./splunk start --accept-license
+```
+
+### Accessing the Web Interface
+
+Well done – Splunk is now running on your Linux machine. To open the web UI, use the VM's browser and go to `http://coffely:8000`. If you're on the VPN, you can reach it at `http://MACHINE_IP:8000`. Port `8000` is the default. Log in with the credentials you just created.
+
+<img width="887" height="376" alt="Image" src="https://github.com/user-attachments/assets/45258d07-1b56-483d-9364-e518d658adb1" />
+
+---
+
+## Command‑Line Management
+
+After installation, you'll need some essential CLI commands. All of these are run from `/opt/splunk/bin`.
+
+- `./splunk start` – Launches Splunk. If already running, it does nothing.
+- `./splunk stop` – Shuts it down.
+- `./splunk restart` – Stops and starts again. Handy after changing configuration files.
+
+```bash
+root@coffely:/opt/splunk/bin# ./splunk start
+```
+### More Useful Commands
+
+- `./splunk enable boot-start` – Makes Splunk start automatically when the system boots.
+- `./splunk status` – Shows whether Splunk is running and reports any errors.
+
+```bash
+root@coffely:/opt/splunk/bin# ./splunk status
+```
+- `./splunk add oneshot /path/to/logfile -index yourindex` – Injects a single log entry into an index. Good for testing or adding isolated events.
+
+```bash
+root@coffely:/opt/splunk/bin# ./splunk add oneshot /path/to/logfile -index yourindex
+```
+- `./splunk search "your query"` – Runs a search from the command line using SPL.
+
+```bash
+root@coffely:/opt/splunk/bin# ./splunk search coffely
+```
+
+- `./splunk help` – Lists all available CLI commands with brief descriptions.
+
+These are just a sample. Administrators can use the CLI to efficiently manage and troubleshoot Splunk.
+
+---
+
+## Setting Up the Universal Forwarder
+
+Getting data into Splunk is a key step. Proper configuration ensures logs are indexed correctly and become searchable. Splunk can accept data from nearly any source: operating systems, web servers, IDS/IPS, etc.
+
+In production, forwarders run on remote machines and send data to a central Splunk server. In this lab, we'll install the forwarder on the same machine as Splunk.
+
+### Installing the Forwarder
+
+Download the universal forwarder from Splunk's website – it's available for all platforms.
+
+<img width="887" height="224" alt="Image" src="https://github.com/user-attachments/assets/ad080abe-af9d-4814-a3ba-656e64843be0" />
+
+Go back to `/home/ubuntu/Downloads/splunk`. Stay as root, then extract the forwarder tarball into `/opt`.
+
+```bash
+ubuntu@coffely:~/Downloads/splunk/$ ls
+splunk_installer.tgz splunkforwarder.tgz
+ubuntu@coffely:~/Downloads/splunk/$ sudo su
+root@coffely:~/Downloads/splunk/#
+root@coffely:~/Downloads/splunk/# tar xvzf splunkforwarder.tgz -C /opt
+splunkforwarder/
+splunkforwarder/swidtag/
+...
+```
+### Starting the Forwarder
+
+Switch to `/opt/splunkforwarder/bin` and issue `./splunk start --accept-license`. You'll set up credentials.
+
+Both Splunk Enterprise and the forwarder normally use port `8089` for management (splunkd). Because they run on the same machine, you'll get a port conflict. When asked, change the forwarder's port to `8090` so both can coexist.
+
+```bash
+root@coffely:~/Downloads/splunk/# cd /opt/splunkforwarder/bin
+root@coffely:/opt/splunkforwarder/bin# ./splunk start --accept-license
+This appears to be your first time running this version of Splunk.
+```
+Now both Splunk and the forwarder are running. Next, we'll tell the forwarder what logs to send.
+
+---
+
+## Configuring the Forwarder to Send Data
+
+The forwarder needs a destination. We'll configure both sides: Splunk (receiver) and the forwarder (sender).
+
+### Splunk Receiver Setup
+
+Log into Splunk, go to **Settings**, then **Forwarding and receiving**.
+
+<img width="492" height="328" alt="image" src="https://github.com/user-attachments/assets/2e5295be-b9b8-468b-b5a9-bb6dfde5f5b4" />
+
+You'll see options for both sending and receiving. We want to **receive** data from the Linux endpoint, so click **+ Add new** under **Receive data**.
+
+<img width="887" height="304" alt="image" src="https://github.com/user-attachments/assets/adb8834e-2ce9-4b1c-8366-865570cbfde6" />
+
+The default receive port is `9997`. You can change it, but we'll stick with `9997`. Click **Save**.
+
+<img width="887" height="251" alt="image" src="https://github.com/user-attachments/assets/677933ee-1388-4143-8615-36854e35521f" />
+
+Port `9997` is now open and waiting. You can later disable or delete this from the same page. Leave it active for now.
+
+<img width="887" height="168" alt="image" src="https://github.com/user-attachments/assets/f9615cbf-3c58-4b25-bbab-d46e3aa150c7" />
+
+### Creating an Index
+
+Go back to **Settings** → **Indexes**. We'll make a fresh index to hold the incoming data. If you don't specify an index, Splunk uses `main`.
+
+<img width="492" height="329" alt="image" src="https://github.com/user-attachments/assets/9c002d68-f7cf-4371-89aa-28e37f091153" />
+
+The **Indexes** page lists all existing indexes (both user‑created and system‑internal). Internal indexes track Splunk's own performance. Metadata like size, event count, and storage path are shown. Click **New Index**.
+
+<img width="887" height="229" alt="image" src="https://github.com/user-attachments/assets/2eead396-9a49-43c7-b963-1aad4dc872d9" />
+
+Name it `linux_host` and accept the default settings. Save.
+
+<img width="492" height="358" alt="image" src="https://github.com/user-attachments/assets/d672d656-c5ba-4422-a3d1-5c36caba44d5" />
+
+### Forwarder Destination Configuration
+
+Back on the Linux terminal, tell the forwarder where to send data:
+
+```bash
+root@coffely:/opt/splunkforwarder/bin# ./splunk add forward-server MACHINE_IP:9997
+```
+### Selecting Linux Logs
+
+Linux keeps its logs under `/var/log`. We'll ingest `syslog` into Splunk. The same method works for other log files.
+
+```bash
+root@coffely:/opt/splunkforwarder/bin# ls /var/log
+```
+Now monitor the syslog file and point it to our `linux_host` index:
+
+```bash
+root@coffely:/opt/splunkforwarder/bin# ./splunk add monitor /var/log/syslog -index linux_host
+```
+### Checking Input Configuration
+
+You can examine `inputs.conf` to confirm the settings. This file defines what data Splunk collects. You can edit it manually to add or change inputs.
+
+```bash
+root@coffely:/opt/splunkforwarder/bin# cat /opt/splunkforwarder/etc/apps/search/local/inputs.conf
+```
+### Generating Test Logs with `logger`
+
+The `logger` tool adds test messages to syslog. Because we're monitoring syslog, any message we create will appear in Splunk.
+
+```bash
+root@coffely:/opt/splunkforwarder/bin# logger "coffely-has-the-best-coffee-in-town"
+root@coffely:/opt/splunkforwarder/bin# tail -1 /var/log/syslog
+```
+
+To verify receipt, go to **Search & Reporting** and run:
+
+```
+index=linux_host "coffely-has-the-best-coffee-in-town"
+```
+
+<img width="887" height="308" alt="image" src="https://github.com/user-attachments/assets/5109e54c-d1a0-4e1e-9209-9862416455fb" />
+
+---
+
+## Forwarding Windows Logs (Example)
+
+We've successfully ingested Linux logs. In real life, you'll often need logs from Windows servers, email gateways, firewalls, etc. **Log aggregation** – collecting and normalizing logs from many sources – lets analysts correlate across systems.
+
+Our lab is Linux‑only, so this section is a **read‑along** example for Windows.
+
+Assume you have a Windows host. Install the universal forwarder there, and during installation specify your Splunk instance's IP as the indexer. (You cannot follow along here because we have only one VM, but the process is worth knowing.)
+
+Using PowerShell, you can define which logs to forward. For example, to monitor Security events:
+
+```powershell
+PS C:\> cd "Program Files\SplunkUniversalForwarder\bin"
+PS C:\Program Files\SplunkUniversalForwarder\bin> .\splunk.exe add monitor C:\Windows\System32\winevt\Logs\Security.evtx
+Added monitor of 'C:\Windows\System32\winevt\Logs\Security.evtx'.
+```
+
+After that, Search & Reporting would show the Windows Security events.
+
+<img width="887" height="356" alt="image" src="https://github.com/user-attachments/assets/b3d68c61-7d74-4209-b591-737e2219b5cc" />
+
+### Using a Deployment Server for Windows
+
+You can also turn your Splunk instance into a **deployment server** to manage forwarders via the UI.
+
+```bash
+root@coffely:/opt/splunk/bin# ./splunk enable deploy-server
+Deployment Server is enabled.
+root@coffely:/opt/splunk/bin# ./splunk restart
+```
+Back in Splunk, go to **Settings** → **Data Inputs**, scroll to **Forwarded inputs**, and click **+ Add new** beside **Windows Event Logs**.
+
+<img width="887" height="156" alt="image" src="https://github.com/user-attachments/assets/bdf66dbf-18c0-4866-a8cb-9fa3c9442328" />
+
+Your Windows machine appears under **Available hosts**. Select it and assign a **server class name** – a way to group deployment clients.
+
+<img width="887" height="380" alt="image" src="https://github.com/user-attachments/assets/146ad661-3d29-4f9a-96eb-ab63fb33afe5" />
+
+Choose which log types to forward: here **Application**, **Security**, **Setup**, and **System** are selected.
+
+<img width="887" height="328" alt="image" src="https://github.com/user-attachments/assets/68a5b252-13b6-4856-a8d4-7ff0ccb167eb" />
+
+Finally, create a new index named `windows`, review the input, and submit – similar to earlier steps.
+
+<img width="887" height="312" alt="image" src="https://github.com/user-attachments/assets/c1c67105-36a5-45a1-a141-0805622ecdc2" />
+
+Check the `windows` index in Search & Reporting.
+
+---
+
+## Ingesting Web Server Logs
+
+The Linux VM also hosts a development website at `http://coffely.thm:8080` (accessible within the VM). You need to configure Splunk to receive Apache access logs so you can track orders and coffee sales.
+
+<img width="1708" height="649" alt="Image" src="https://github.com/user-attachments/assets/7fc5f785-b756-43fd-a7ab-d7dca7288dd8" />
+
+The site will eventually accept online coffee orders. The backend logs every request, response, and order. Let's ingest those logs.
+
+Apache stores access logs at `/var/log/apache2/access.log`. You could use the command line, but let's try the Splunk web interface.
+
+### Adding the Data Source
+
+In Splunk, go to **Settings** → **Add Data**.
+
+<img width="492" height="328" alt="Image" src="https://github.com/user-attachments/assets/6635da39-4982-4312-8ebb-4a5ecb5640c1" />
+
+Scroll down and pick **Monitor**.
+
+<img width="887" height="240" alt="Image" src="https://github.com/user-attachments/assets/a7c7918e-2333-40c4-a323-621ca27762f2" />
+
+Select **Files & Directories** and enter `/var/log/apache2/access.log`. Notice you can index once or monitor continuously. Choose continuous monitoring so new entries arrive as they happen.
+
+<img width="887" height="314" alt="Image" src="https://github.com/user-attachments/assets/3e3f6f82-9add-4b12-a41e-6bae846f8bda" />
+
+Now set the **source type**. Open the dropdown, select **Web**, then **access_combined**.
+
+<img width="492" height="407" alt="Image" src="https://github.com/user-attachments/assets/16a51c76-3689-4562-95c6-793d50603654" />
+
+Assign a name to the **host** field – change it to `coffelyweb`. Then create a new index named `web` (just like before).
+
+<img width="492" height="286" alt="Image" src="https://github.com/user-attachments/assets/f6de12f3-a267-424c-873f-9a4a1393aa72" />
+
+Review everything, submit, and start searching. Initially you'll see no data. Generate some traffic by opening a browser and visiting `http://coffely.thm:8080`. Click around to create log entries.
+
+<img width="887" height="324" alt="Image" src="https://github.com/user-attachments/assets/88a9be64-4936-4f28-8db6-d6e88f3beb60" />
+
+Success – Apache access logs are now flowing into Splunk.
+
+<img width="887" height="340" alt="Image" src="https://github.com/user-attachments/assets/264beffe-99d3-4323-a609-094b8c38094e" />
+---
+
+# Splunk's Basics
+
 ## The Three Main Splunk Components
 
-Splunk relies on three core components that work together to enable efficient data searching and analysis: Forwarder, Indexer, and Search Head.
+As we mentioend earlier, Splunk relies on three core components that work together to enable efficient data searching and analysis: Forwarder, Indexer, and Search Head.
 
 <img width="920" height="309" alt="Image" src="https://github.com/user-attachments/assets/74ec0ae3-3e52-4863-90f7-ccb9b32f6f92" />
 
