@@ -328,6 +328,7 @@ Review everything, submit, and start searching. Initially you'll see no data. Ge
 Success – Apache access logs are now flowing into Splunk.
 
 <img width="887" height="340" alt="Image" src="https://github.com/user-attachments/assets/264beffe-99d3-4323-a609-094b8c38094e" />
+
 ---
 
 # Splunk's Basics
