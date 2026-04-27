@@ -1,4 +1,5 @@
-# Splunk
+
+# What is Splunk
 
 Splunk is a widely used Security Information and Event Management (SIEM) platform that helps security analysts search through, visualize, and investigate log data. The real power of Splunk lies in its Search Processing Language (SPL), which turns massive amounts of raw data into actionable insights. In this guide, you'll learn how to create search queries, apply filters, and transform results to extract valuable information.
 
@@ -1025,9 +1026,82 @@ In the screenshot below, you can see how SOAR allows fine‑tuning of workflows 
 
 <img width="788" height="387" alt="image" src="https://github.com/user-attachments/assets/f6241241-df95-4afd-b684-6c8861e62f90" />
 
+---
 
+Below is a **comprehensive summary** of the most common Splunk SPL commands, followed by recommended TryHackMe rooms and Coursera courses 
 
+## Most Common Splunk Commands (SPL)
 
+| Command | Description | Example Usage |
+|---------|-------------|----------------|
+| `index` | Specifies which data container to search | `index=windowslogs` |
+| `search` | Filters events based on keywords or fields (often implicit) | `search "failed password"` |
+| `fields` | Keeps or removes specific fields from results | `\| fields host, source, sourcetype` |
+| `table` | Displays results as a clean column‑based table | `\| table _time, user, action` |
+| `rename` | Changes the display name of a field | `\| rename User as Employee` |
+| `dedup` | Removes duplicate events based on a field | `\| dedup SourceIp` |
+| `sort` | Orders results ascending or descending | `\| sort - count` |
+| `stats` | Calculates statistics (count, avg, sum, etc.) | `\| stats count by EventID` |
+| `chart` | Creates tabular output suitable for visualisation | `\| chart count by User` |
+| `timechart` | Shows trends over time (automatically uses `_time`) | `\| timechart span=1h count` |
+| `eval` | Creates new fields or modifies existing ones using expressions | `\| eval is_admin = if(role="admin",1,0)` |
+| `where` | Filters results similarly to `search` but works on calculated fields | `\| where bytes > 1000` |
+| `regex` | Filters events using Perl‑compatible regular expressions | `\| regex _raw="\d{1,3}\.\d{1,3}"` |
+| `iplocation` | Adds geographic information (city, country) from an IP address | `\| iplocation src_ip` |
+| `lookup` | Enriches events with data from an external CSV or lookup table | `\| lookup user_roles user OUTPUT role` |
+| `join` | Correlates two searches (subsearch) – use sparingly on large data | `\| join [search index=...]` |
+| `eventstats` | Like `stats` but adds summary values to every event | `\| eventstats avg(bytes) as avg_bytes` |
+| `highlight` | Visually marks keywords in raw log view | `\| highlight "ERROR" "WARNING"` |
+| `bin` | Groups events into time buckets or numeric ranges | `\| bin _time span=1h` |
+| `top` | Shows the most frequent values of a field | `\| top limit=5 User` |
+| `rare` | Shows the least frequent values of a field | `\| rare User` |
+| `append` | Adds results from another search to the current results | `\| append [search index=...]` |
+| `inputlookup` | Retrieves data from a static lookup table | `\| inputlookup known_threats.csv` |
+| `outputlookup` | Saves search results to a lookup file | `\| outputlookup my_results.csv` |
+| `addtotals` | Adds a column that sums numeric fields | `\| addtotals` |
+| `fillnull` | Replaces null values with a specified string or number | `\| fillnull value="N/A"` |
+| `convert` | Converts field formats (e.g., numeric to string) | `\| convert num(bytes)` |
+| `transaction` | Groups related events based on time or field constraints | `\| transaction startswith="login" endswith="logout"` |
+| `streamstats` | Calculates cumulative statistics across events in order | `\| streamstats count as event_number` |
 
+---
 
+## Recommended TryHackMe Rooms (Hands‑on Splunk Practice)
 
+| Room Name | Focus / Description |
+|-----------|---------------------|
+| [Splunk 101](https://tryhackme.com/room/splunk101) | Basic navigation, data ingestion, and simple SPL searches. |
+| [Splunk 201](https://tryhackme.com/room/splunk201) | Advanced searches, reports, alerts, and dashboards. |
+| [Splunk: Exploring SPL](https://tryhackme.com/room/splunkexploringspl) | Deep dive into Search Processing Language with real logs. |
+| [Splunk: Data Manipulation](https://tryhackme.com/room/splunkdatamanipulation) | `eval`, `stats`, `chart`, `timechart`, and `lookup` commands. |
+| [Splunk: Phishing Analysis](https://tryhackme.com/room/splunkphishing) | Applying Splunk to email logs and phishing investigations. |
+| [Splunk: Endpoint Monitoring](https://tryhackme.com/room/splunkendpoint) | Sysmon and Windows Event Logs with Splunk. |
+| [Splunk: Enterprise Security](https://tryhackme.com/room/splunkenterprisesecurity) | Introduction to ES and threat hunting (premium). |
+| [Splunk: SOAR](https://tryhackme.com/room/splunksoar) | Basics of Splunk SOAR (formerly Phantom) for automation. |
+
+> *All TryHackMe rooms are accessible with a free or subscription account.*
+
+---
+
+## Recommended Coursera Courses (Structured & Certification‑Oriented)
+
+| Course Title | Provider / Author | Description |
+|--------------|------------------|-------------|
+| [Splunk Search Expert](https://www.coursera.org/learn/splunk-search-expert) | Splunk | Master SPL, transforming commands, reports, and knowledge objects. |
+| [Splunk Knowledge Manager](https://www.coursera.org/learn/splunk-knowledge-manager) | Splunk | Data models, lookups, aliases, and workflow actions. |
+| [Introduction to Splunk SIEM](https://www.coursera.org/learn/intro-splunk-siem) | EDUCBA / Splunk | Fundamentals for SOC analysts – data onboarding and basic searching. |
+| [Splunk Enterprise Security Admin](https://www.coursera.org/learn/splunk-enterprise-security) | Splunk | Installing, configuring, and using ES (notable events, correlation searches). |
+| [Splunk SOAR (Phantom) for Automation](https://www.coursera.org/learn/splunk-soar) | Splunk | Playbooks, connectors, and incident response automation. |
+| [Cybersecurity Analytics with Splunk](https://www.coursera.org/learn/cybersecurity-analytics-splunk) | University of Colorado | Apply Splunk to real‑world security incident handling. |
+
+> *These courses are typically part of the **Splunk Fundamentals** learning path and may require a Coursera subscription or individual purchase.*
+
+---
+
+## Conclusion
+
+Splunk is far more than a log viewer – it is a complete **security operations platform**. By mastering the commands and concepts covered in these articles – from basic indexing to advanced alerting and dashboarding – you will be able to transform raw, noisy logs into actionable intelligence. The ability to write efficient SPL searches, create scheduled reports, and build correlation rules is essential for any modern SOC analyst.
+
+To take your skills further, we strongly recommend practicing with the **TryHackMe Splunk rooms** and pursuing formal training through **Coursera’s Splunk courses**. Real‑world proficiency comes from hands‑on repetition: ingest your own logs (or use free datasets like the **BOTS** (Boss of the SOC) datasets from Splunk), recreate the examples we discussed, and gradually build your own detection library.
+
+With Splunk, you are not just searching data – you are hunting threats, understanding your environment, and driving faster, smarter incident response. Start small, stay curious, and keep querying.
