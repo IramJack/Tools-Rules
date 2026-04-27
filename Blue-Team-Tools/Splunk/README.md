@@ -1076,10 +1076,6 @@ The Splunk learning rooms come first (foundational to expert), followed by the h
 | Splunk 201 | [https://tryhackme.com/room/splunk201] | Advanced searches, reports, alerts, and dashboards. |
 | Splunk: Exploring SPL | [https://tryhackme.com/room/splunkexploringspl] | Deep dive into Search Processing Language with real logs. |
 | Splunk: Data Manipulation | [https://tryhackme.com/room/splunkdatamanipulation] | `eval`, `stats`, `chart`, `timechart`, and `lookup` commands. |
-| Splunk: Phishing Analysis | [https://tryhackme.com/room/splunkphishing] | Applying Splunk to email logs and phishing investigations. |
-| Splunk: Endpoint Monitoring | [https://tryhackme.com/room/splunkendpoint] | Sysmon and Windows Event Logs with Splunk. |
-| Splunk: Enterprise Security | [https://tryhackme.com/room/splunkenterprisesecurity] | Introduction to ES and threat hunting (premium). |
-| Splunk: SOAR | [https://tryhackme.com/room/splunksoar] | Basics of Splunk SOAR (formerly Phantom) for automation. |
 | Investigating with Splunk | [https://tryhackme.com/room/investigatingwithsplunk] | Investigate anomalies using Splunk. |
 | New Hire Old Artifacts | [https://tryhackme.com/room/newhireoldartifacts] | Investigate the intrusion attack using Splunk. |
 | PS Eclipse | [https://tryhackme.com/room/pseclipse] | Use Splunk to investigate ransomware activity. |
