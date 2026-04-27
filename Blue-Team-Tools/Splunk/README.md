@@ -1074,10 +1074,6 @@ Below is a **comprehensive summary** of the most common Splunk SPL commands, fol
 | [Splunk 201](https://tryhackme.com/room/splunk201) | Advanced searches, reports, alerts, and dashboards. |
 | [Splunk: Exploring SPL](https://tryhackme.com/room/splunkexploringspl) | Deep dive into Search Processing Language with real logs. |
 | [Splunk: Data Manipulation](https://tryhackme.com/room/splunkdatamanipulation) | `eval`, `stats`, `chart`, `timechart`, and `lookup` commands. |
-| [Splunk: Phishing Analysis](https://tryhackme.com/room/splunkphishing) | Applying Splunk to email logs and phishing investigations. |
-| [Splunk: Endpoint Monitoring](https://tryhackme.com/room/splunkendpoint) | Sysmon and Windows Event Logs with Splunk. |
-| [Splunk: Enterprise Security](https://tryhackme.com/room/splunkenterprisesecurity) | Introduction to ES and threat hunting (premium). |
-| [Splunk: SOAR](https://tryhackme.com/room/splunksoar) | Basics of Splunk SOAR (formerly Phantom) for automation. |
 
 > *All TryHackMe rooms are accessible with a free or subscription account.*
 
@@ -1087,12 +1083,12 @@ Below is a **comprehensive summary** of the most common Splunk SPL commands, fol
 
 | Course Title | Provider / Author | Description |
 |--------------|------------------|-------------|
-| [Splunk Search Expert](https://www.coursera.org/learn/splunk-search-expert) | Splunk | Master SPL, transforming commands, reports, and knowledge objects. |
-| [Splunk Knowledge Manager](https://www.coursera.org/learn/splunk-knowledge-manager) | Splunk | Data models, lookups, aliases, and workflow actions. |
-| [Introduction to Splunk SIEM](https://www.coursera.org/learn/intro-splunk-siem) | EDUCBA / Splunk | Fundamentals for SOC analysts – data onboarding and basic searching. |
-| [Splunk Enterprise Security Admin](https://www.coursera.org/learn/splunk-enterprise-security) | Splunk | Installing, configuring, and using ES (notable events, correlation searches). |
-| [Splunk SOAR (Phantom) for Automation](https://www.coursera.org/learn/splunk-soar) | Splunk | Playbooks, connectors, and incident response automation. |
-| [Cybersecurity Analytics with Splunk](https://www.coursera.org/learn/cybersecurity-analytics-splunk) | University of Colorado | Apply Splunk to real‑world security incident handling. |
+| [Splunk Search Expert] | Splunk | Master SPL, transforming commands, reports, and knowledge objects. |
+| [Splunk Knowledge Manager] | Splunk | Data models, lookups, aliases, and workflow actions. |
+| [Introduction to Splunk SIEM] | EDUCBA / Splunk | Fundamentals for SOC analysts – data onboarding and basic searching. |
+| [Splunk Enterprise Security Admin] | Splunk | Installing, configuring, and using ES (notable events, correlation searches). |
+| [Splunk SOAR (Phantom) for Automation] | Splunk | Playbooks, connectors, and incident response automation. |
+| [Cybersecurity Analytics with Splunk] | University of Colorado | Apply Splunk to real‑world security incident handling. |
 
 > *These courses are typically part of the **Splunk Fundamentals** learning path and may require a Coursera subscription or individual purchase.*
 
