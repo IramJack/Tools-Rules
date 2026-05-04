@@ -5,7 +5,7 @@ In the world of threat hunting and incident response, having lightweight, open�
 
 ---
 
-## LOKI – A Free IOC Scanner (Not to Be Confused with the Norse God)
+## LOKI – A Free IOC Scanner
 
 **LOKI** is an open‑source **Indicator of Compromise (IOC)** scanner, written by Florian Roth. It is completely free to use. According to its GitHub repository, LOKI detects threats using four primary techniques:
 
