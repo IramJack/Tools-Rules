@@ -509,7 +509,7 @@ Provides unofficial visibility into Suricata buffers and parsing behavior.
 
 Useful during advanced rule debugging.
 
-[23.png]
+<img width="1272" height="1101" alt="image" src="https://github.com/user-attachments/assets/a418a635-5ed7-4b91-be19-b266d149ba5d" />
 
 ---
 
@@ -521,7 +521,7 @@ Contains Dalton execution logs and confirms:
 * Execution details
 * Rule loading information
 
-<img width="1272" height="1101" alt="image" src="https://github.com/user-attachments/assets/d3689ac7-a8a5-4cf6-8d82-68729b1a5913" />
+<img width="1748" height="561" alt="image" src="https://github.com/user-attachments/assets/f967247a-e1b5-45fd-b2c8-87883e650b75" />
 
 ---
 
