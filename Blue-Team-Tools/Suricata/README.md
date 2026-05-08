@@ -369,7 +369,7 @@ Following the style guide:
 
 | Keyword     | Value                                     |
 | ----------- | ----------------------------------------- |
-| `msg`       | `msg:"TryHackMe - HTTP Query to ip-api";` |
+| `msg`       | `msg:"Sombra - HTTP Query to ip-api";` |
 | `flow`      | `flow:established,to_server;`             |
 | `reference` | `reference:url,ip-api.com/docs;`          |
 | `classtype` | `classtype:misc-activity;`                |
@@ -399,7 +399,7 @@ We can map relevant fields to sticky buffers:
 # Final Rule
 
 ```bash
-alert http $HOME_NET any -> $EXTERNAL_NET any (msg:"TryHackMe - HTTP Query to ip-api"; flow:established,to_server; http.method; content:"GET"; http.uri; content:"/json"; http.host; content:"ip-api.com"; reference:url,ip-api.com/docs; classtype:misc-activity; sid:1000000; rev:1;)
+alert http $HOME_NET any -> $EXTERNAL_NET any (msg:"Sombra - HTTP Query to ip-api"; flow:established,to_server; http.method; content:"GET"; http.uri; content:"/json"; http.host; content:"ip-api.com"; reference:url,ip-api.com/docs; classtype:misc-activity; sid:1000000; rev:1;)
 ```
 
 Save the rule inside:
