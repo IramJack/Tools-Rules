@@ -17,8 +17,6 @@ Besides passive monitoring, Suricata can also operate actively by blocking or dr
 
 ## Working Modes in Suricata
 
-[1.png]
-
 Suricata supports three major operating modes, each designed for a different security purpose.
 
 | Mode                                  | Input                | Purpose                                                                                                                                                           |
@@ -28,8 +26,6 @@ Suricata supports three major operating modes, each designed for a different sec
 | **Intrusion Detection System (IDS)**  | Live Traffic & PCAPs | Analyzes network traffic and generates alerts without blocking packets. Commonly used for threat hunting and investigations.                                      |
 
 Threat intelligence groups such as Emerging Threats contribute continuously updated rules covering everything from informational events to malware and phishing activity. In IDS mode, Suricata leverages these rules to identify suspicious or malicious traffic patterns that analysts can later pivot from during investigations.
-
-[Table.png]
 
 ---
 
@@ -59,11 +55,8 @@ According to the official documentation, every Suricata rule consists of three p
 | **Header**  | Specifies protocol, IPs, ports, and traffic direction |
 | **Options** | Describes the detailed matching logic                 |
 
-[3Table.png]
 
 While Suricata itself does not enforce a strict order for these components, most community rule writers follow the standards outlined in the Suricata Community Style Guide.
-
-[4.png]
 
 ---
 
