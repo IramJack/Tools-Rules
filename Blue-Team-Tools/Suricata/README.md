@@ -420,7 +420,8 @@ Dalton is a web-based platform designed for testing PCAP files against IDS engin
 * Snort
 * Zeek
 
-[18.png]
+<img width="175" height="127" alt="image" src="https://github.com/user-attachments/assets/f40b035e-f7ae-4bc0-b732-2b9f9819eb6d" />
+
 
 It helps validate:
 
@@ -439,7 +440,8 @@ Inside the AttackBox:
 http://MACHINE_IP/dalton/coverage/suricata/
 ```
 
-[19.png]
+<img width="1763" height="1092" alt="image" src="https://github.com/user-attachments/assets/c2c7e05e-e357-43e8-93a2-0a79c008f5c3" />
+
 
 2. Upload:
 
@@ -469,7 +471,7 @@ Once processing completes, Dalton displays several useful tabs.
 
 Displays generated alerts whenever rules match traffic.
 
-[20.png]
+<img width="1778" height="341" alt="image" src="https://github.com/user-attachments/assets/95c1815f-0499-4ac1-ad55-6a31cc325b2b" />
 
 ---
 
@@ -482,7 +484,7 @@ Helpful for:
 * Validating detections
 * Identifying false positives
 
-[21.png]
+<img width="1276" height="674" alt="image" src="https://github.com/user-attachments/assets/6dfeceac-0567-4fb6-b985-dc7327507de3" />
 
 ---
 
@@ -497,7 +499,7 @@ Displays parsed JSON records including:
 
 This helps determine how Suricata interprets the traffic internally.
 
-[22.png]
+<img width="1260" height="974" alt="image" src="https://github.com/user-attachments/assets/fd6ed6d6-0bdc-4570-8927-7d396a974308" />
 
 ---
 
@@ -519,7 +521,7 @@ Contains Dalton execution logs and confirms:
 * Execution details
 * Rule loading information
 
-[24.png]
+<img width="1272" height="1101" alt="image" src="https://github.com/user-attachments/assets/d3689ac7-a8a5-4cf6-8d82-68729b1a5913" />
 
 ---
 
@@ -532,8 +534,6 @@ If you want more traffic samples for analysis and detection engineering practice
 * Malware Traffic Analysis
 * VX-Underground
 * AlienVault
-
-[25.png]
 
 ---
 
@@ -555,5 +555,4 @@ Communication channels include:
 * Twitter/X: `@ET_Labs`
 * ET Discourse forums
 
-[26.png]
 
