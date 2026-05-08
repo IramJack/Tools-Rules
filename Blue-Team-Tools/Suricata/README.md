@@ -326,7 +326,8 @@ Wireshark provides:
 * Packet Details Pane
 * Packet Bytes Pane
 
-[12.png]
+<img width="1057" height="956" alt="image" src="https://github.com/user-attachments/assets/da4dad7d-d360-43d5-8ea2-b190ae485925" />
+
 
 After inspecting packet number 4:
 
@@ -353,7 +354,6 @@ Traffic direction:
 -> 
 ```
 
-[13 Table.png]
 
 Final header:
 
@@ -376,7 +376,6 @@ Following the style guide:
 | `sid`       | `sid:1000000;`                            |
 | `rev`       | `rev:1;`                                  |
 
-[14 Table.png]
 
 ---
 
@@ -384,7 +383,7 @@ Following the style guide:
 
 By reviewing the HTTP request:
 
-[15.png]
+<img width="1043" height="222" alt="image" src="https://github.com/user-attachments/assets/2db0a8d5-a442-41d3-9194-88b123c74b4b" />
 
 We can map relevant fields to sticky buffers:
 
@@ -394,7 +393,6 @@ We can map relevant fields to sticky buffers:
 | `http.uri`    | `content:"/json";`      |
 | `http.host`   | `content:"ip-api.com";` |
 
-[16 Table.png]
 
 ---
 
@@ -409,8 +407,6 @@ Save the rule inside:
 ```bash
 pcaps/suricata.rules
 ```
-
-[17.png]
 
 ---
 
