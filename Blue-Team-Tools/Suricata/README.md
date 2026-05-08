@@ -192,7 +192,7 @@ The Suricata Community Style Guide recommends arranging options in the following
 
 1. `msg`
 2. `flow`
-3. Payload detection logic
+3. `Payload detection logic`
 4. `reference`
 5. `classtype`
 6. `sid`
