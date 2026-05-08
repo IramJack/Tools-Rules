@@ -93,8 +93,6 @@ Typically:
 * **IDS mode** relies heavily on `alert`
 * **IPS mode** frequently uses `drop`
 
-[5.png]
-
 ---
 
 # Suricata Rule Format — Header Section
@@ -220,8 +218,6 @@ alert http any any -> any any (msg:"HTTP GET Request Containing Rule in URI"; fl
 | `sid`       | Unique rule identifier                  |
 | `rev`       | Rule revision number                    |
 
-[7 Table .png]
-
 ---
 
 ## Flow Keywords
@@ -252,7 +248,6 @@ Example HTTP sticky buffers:
 | `http.method` | `GET`   | None           |
 | `http.uri`    | `rule`  | `fast_pattern` |
 
-[8 Table.png]
 
 The `fast_pattern` keyword is especially important because it improves rule performance by helping Suricata optimize matching operations.
 
@@ -268,7 +263,7 @@ http://MACHINE_IP/dalton
 
 Dalton will be used later to validate rules against PCAP traffic.
 
-[9.png]
+<img width="1085" height="632" alt="image" src="https://github.com/user-attachments/assets/c47dbca0-316d-40bc-aba6-79fbd630775e" />
 
 ---
 
@@ -286,7 +281,8 @@ Password:
 password
 ```
 
-[10.png]
+<img width="890" height="509" alt="image" src="https://github.com/user-attachments/assets/5c6c5a31-4cd6-4f90-8975-7038c719a09b" />
+
 
 The downloaded files should now exist under:
 
@@ -294,7 +290,7 @@ The downloaded files should now exist under:
 pcaps/
 ```
 
-[11.png]
+<img width="578" height="112" alt="image" src="https://github.com/user-attachments/assets/8a7c51d3-4d5b-44e5-a229-8b35b9fe0160" />
 
 ---
 
