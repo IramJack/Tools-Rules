@@ -81,10 +81,12 @@ The wizard will generate a custom installation command for your specific system.
 
 #### Windows Installation
 <img width="965" height="754" alt="image" src="https://github.com/user-attachments/assets/671241ea-bf38-4178-a12b-fb72b0cebe77" />
+
 *Windows agent installation process*
 
 #### Debian/Ubuntu Installation
 <img width="969" height="831" alt="image" src="https://github.com/user-attachments/assets/45f2f4dc-892a-4a73-b4e9-7fcbd6351a65" />
+
 *Linux agent installation process*
 
 ---
@@ -122,11 +124,13 @@ You can adjust these settings in the Wazuh configuration file:
 By default, Wazuh is quite sensitive when it comes to detecting security events. While this thoroughness helps catch potential threats, it can also generate many alerts. For instance, a Linux system might report hundreds of events during normal daily operations – like file deletions or system maintenance tasks.
 
 <img width="652" height="275" alt="image" src="https://github.com/user-attachments/assets/6e960167-9667-49d5-bf1c-1e3eb39570cc" />
+
 *Example showing 769 events from routine system maintenance*
 
 These events are categorized using Wazuh's rule sets, which determine their severity. You can click on individual events to examine them in detail, sorting them by timestamp, type, or description.
 
 <img width="1480" height="686" alt="image" src="https://github.com/user-attachments/assets/e8e00434-8b2d-453d-a5ad-de8fa624f14b" />
+
 *Event analysis interface showing detailed view of security events*
 
 ---
@@ -149,11 +153,13 @@ Wazuh provides compliance reporting for:
 When you install the Wazuh agent, it performs an initial audit and generates compliance metrics. These scores help you understand how well your systems align with security standards.
 
 <img width="1920" height="899" alt="image" src="https://github.com/user-attachments/assets/d1894280-8d54-4475-a153-34c75a3dd40f" />
+
 *Compliance scores showing how a domain controller performs against various frameworks*
 
 The dashboard provides visual representations of your compliance status, making it easy to identify areas that need attention.
 
 <img width="1920" height="937" alt="image" src="https://github.com/user-attachments/assets/baf1e1a8-6dd3-4648-a264-4661f05ea1f9" />
+
 *Detailed compliance benchmark view*
 
 
@@ -162,6 +168,7 @@ To access the policy management module:
 2. Select **Policy Management**
 
 <img width="1043" height="455" alt="image" src="https://github.com/user-attachments/assets/5299b261-3643-4229-a4f8-01f3aa376709" />
+
 *Policy Management module interface*
 
 ---
@@ -217,6 +224,7 @@ Wazuh assigns different severity levels to alerts based on their nature:
 You can customize these settings to match your environment. For example, if a rarely-used account suddenly shows activity, you might configure Wazuh to assign a higher severity to that event.
 
 <img width="1850" height="512" alt="image" src="https://github.com/user-attachments/assets/e4eb29ea-b700-4eca-93bf-e00bb5cfa814" />
+
 *Animated GIF showing successful Windows login detection*
 
 ### Tracking Login Patterns
@@ -224,6 +232,7 @@ You can customize these settings to match your environment. For example, if a ra
 Wazuh can help you analyze login patterns. For instance, you might discover that out of 285 total login events, only 79 are related to a specific user account.
 
 <img width="1659" height="619" alt="image" src="https://github.com/user-attachments/assets/8827a429-f02b-4bd4-8a63-a4f81d309caf" />
+
 *Statistical view showing filtered login events*
 
 To manage rules:
@@ -231,6 +240,7 @@ To manage rules:
 2. Select **Rules**
 
 <img width="496" height="303" alt="image" src="https://github.com/user-attachments/assets/6b73838f-190f-432f-914a-14fb7a068935" />
+
 *Rules management interface*
 
 ---
@@ -253,6 +263,7 @@ Sysmon (System Monitor) is a Windows service that provides detailed information 
 Sysmon uses XML-based rules to determine what events to capture. Here's an example rule that monitors for PowerShell execution:
 
 <img width="831" height="571" alt="image" src="https://github.com/user-attachments/assets/a8dcf54d-6199-4457-9ff2-e7a9612e9cf6" />
+
 *XML configuration snippet for monitoring PowerShell*
 
 To apply these rules:
@@ -282,6 +293,7 @@ After installation, you can verify that Sysmon is working by checking the Window
 When you launch PowerShell on the Windows server, you'll see events being recorded:
 
 <img width="1534" height="1036" alt="image" src="https://github.com/user-attachments/assets/d1668477-ab0f-4b5b-9285-0138a66e7725" />
+
 *Event Viewer showing PowerShell activity records*
 
 ### Configuring the Wazuh Agent for Windows
@@ -300,11 +312,13 @@ Add the following configuration:
 Your configuration file should look like this:
 
 <img width="541" height="748" alt="image" src="https://github.com/user-attachments/assets/432832a2-ced1-443d-b88b-a38595bd3fbd" />
+
 *Complete ossec.conf showing Windows event configuration*
 
 After making these changes, restart the Wazuh agent. For safety, you might want to restart the entire operating system to ensure all changes take effect.
 
 <img width="1836" height="1051" alt="image" src="https://github.com/user-attachments/assets/5f235872-b435-47bf-be5a-8fc02568aabb" />
+
 *Restart confirmation screen*
 
 ### Adding Rules on the Management Server
@@ -480,11 +494,13 @@ Wazuh also provides a web-based API console for convenience:
 2. Select the **API Console** option
 
 <img width="492" height="461" alt="image" src="https://github.com/user-attachments/assets/56b9e983-ef57-49a8-8a8d-77550ca42eb3" />
+
 *API Console location in the interface*
 
 The console comes with sample queries you can run immediately. Just select a query and click the green run button.
 
 <img width="1278" height="335" alt="image" src="https://github.com/user-attachments/assets/5447519a-b5de-435a-8d83-7293713f4db7" />
+
 *API Console showing sample queries*
 
 For complete API documentation, visit:
@@ -502,11 +518,13 @@ Wazuh makes it easy to create professional security reports that you can share w
 2. Apply your desired filters (e.g., last 24 hours)
 
 <img width="999" height="487" alt="image" src="https://github.com/user-attachments/assets/4d865f8e-0baa-4bdd-ba67-47072aae6c6b" />
+
 *Security Events view for report generation*
 
 3. If data is available, you'll see a report generation button
 
 <img width="1916" height="256" alt="image" src="https://github.com/user-attachments/assets/6e2b7390-d7ea-4d4b-891d-7efedda30852" />
+
 *Report generation interface*
 
 > **Note:** If the button appears greyed out, it means no data matches your current query. Try adjusting the date range or filters.
@@ -519,6 +537,7 @@ After generating a report, access it through the report dashboard:
 2. Select **Reporting** under "Status and Reports"
 
 <img width="692" height="463" alt="image" src="https://github.com/user-attachments/assets/1f59894e-2436-43f7-b016-b1ac6204531b" />
+
 *Report dashboard showing all generated reports*
 
 ### Downloading Reports
@@ -526,6 +545,7 @@ After generating a report, access it through the report dashboard:
 Your reports are saved as PDF files. Simply click the save icon under the "Actions" column to download a report.
 
 <img width="746" height="812" alt="image" src="https://github.com/user-attachments/assets/b6f4ef59-82b4-4837-b912-ba9f6b16089f" />
+
 *Sample security events report in PDF format*
 
 ---
@@ -541,11 +561,13 @@ To help you explore Wazuh's capabilities, the platform comes with sample data th
 3. Click **Add Data** on the cards to import sample datasets
 
 <img width="543" height="462" alt="image" src="https://github.com/user-attachments/assets/89f12cb9-0782-47a1-a055-a5b910ef914e" />
+
 *Sample Data import interface*
 
 The import process may take up to a minute per dataset. You'll know the import is complete when the button changes to "Remove Data."
 
 <img width="1915" height="768" alt="image" src="https://github.com/user-attachments/assets/b6735af0-3075-4a4d-833d-3e2716e5ba10" />
+
 *Successful data import confirmation*
 
 ### Viewing Imported Data
