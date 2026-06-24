@@ -109,6 +109,7 @@ For example, if your system has an older version of Vim that has a known securit
 The vulnerability scanner runs its first full scan immediately after agent installation. After that, you can configure it to run at regular intervals – by default, it's set to check every 5 minutes.
 
 <img width="356" height="107" alt="image" src="https://github.com/user-attachments/assets/f1d7dfe4-f961-45e2-851b-09bd6dd14907" />
+
 *Configuration file showing vulnerability scanner settings*
 
 You can adjust these settings in the Wazuh configuration file:
